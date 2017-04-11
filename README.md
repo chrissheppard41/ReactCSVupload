@@ -1,3 +1,25 @@
+# React CSV uploader
+
+This project updates jekyll files
+
+Work in progress
+
+## Requirements
+
+- `nodejs` installed
+
+## To run
+
+Using a terminal of your choosing, input the following commands
+
+- `npm install` then
+- `npm start` then
+- `npm start_server`
+
+This will open up your browser, showing the application
+
+## Other Reactjs jargan
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
