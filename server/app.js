@@ -43,6 +43,7 @@ app.post('/updateFile', function(req, res) {
                 var update = Manager.UpdateFile(fileinfo.fieldToUpdate, fileinfo.oldValue, fileinfo.newValue, data);
 
                 //Path creation
+                //@todo check if this is the correct path layout, perhaps add `req.body.path` to the creation to keep it in sync
                 var path = __dirname + "\\output" + fileinfo.url;
                 var strict_path = path.substring(0, path.lastIndexOf("/"));
                 if(!fs.existsSync(strict_path)) {
