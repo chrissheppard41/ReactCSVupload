@@ -1,6 +1,6 @@
 # React CSV uploader
 
-This project updates jekyll files
+This project updates jekyll files. Requires a node server
 
 Work in progress
 
@@ -13,8 +13,8 @@ Work in progress
 Using a terminal of your choosing, input the following commands
 
 - `npm install` then
-- `npm start` then
-- `npm start_server`
+- `npm start` to start react then
+- `npm start_server` to start the server
 
 This will open up your browser, showing the application
 
