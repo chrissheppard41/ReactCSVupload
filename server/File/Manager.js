@@ -1,18 +1,73 @@
-const fsp = require('fs-promise');
-
+const fs = require('fs');
+const path = require('path');
+const dir_path = __dirname + "\\output";
 /**
  *
- * ReadFile
+ * CreateFile
  *
- * Reads the file from disk
+ * Create the file in the directory to be used later. Reads the file from disk, updates that file then saves that file
+ * to a different directory so that we don't lose the original content
  *
- * @param path
- * @param callback
- * @returns {*}
+ * @param path_to_file
+ * @param request
+ * @returns {{}}
  * @constructor
  */
-function ReadFile(path, callback) {
-    return fsp.readFile(path, 'utf8');
+function CreateFile (path_to_file, request) {
+    var output = {};
+    var created = "fail";
+    var file_content = fs.readFileSync(path_to_file, 'utf8').toString();
+
+    var update = UpdateFile(request.fieldToUpdate, request.oldValue, request.newValue, file_content);
+
+    var file_path = dir_path + request.url;
+    var strict_path = file_path.substring(0, file_path.lastIndexOf("/"));
+    if (!fs.existsSync(strict_path)) {
+        fs.mkdirSync(strict_path);
+    }
+
+    fs.writeFileSync(file_path, update.data.updated, 'utf8');
+
+    if (fileExists(file_path)) {
+        created = "pass";
+    }
+
+    output = request;
+    output.status = created;
+    output.original = escapeStringForCSV(update.data.original.toString());
+    output.updated = escapeStringForCSV(update.data.updated.toString());
+    output.error = update.error;
+
+    return output;
+}
+/**
+ *
+ * Escapes the markdown file
+ *
+ * @param input
+ * @returns {string}
+ */
+function escapeStringForCSV (input) {
+    var output = input.replace(/"/g, '""');
+    return output;
+}
+
+/**
+ * fileExists
+ *
+ * If the file exists after it gets created
+ *
+ * @param path
+ * @returns {boolean}
+ */
+function fileExists (dir) {
+    var file_exists = true;
+
+    if(!fs.existsSync(dir)) {
+        file_exists = false;
+    }
+
+    return file_exists;
 }
 
 /**
@@ -28,13 +83,13 @@ function ReadFile(path, callback) {
  * @returns {{error: null, data: {original: *, updated: string}}}
  * @constructor
  */
-function UpdateFile(fieldToUpdate, oldValue, newValue, data) {
+function UpdateFile (fieldToUpdate, oldValue, newValue, data) {
     var output = {
         error: null,
         data: {
             original: data,
             updated: ""
-        },
+        }
     };
 
     if(data.indexOf(fieldToUpdate)) {
@@ -54,23 +109,46 @@ function UpdateFile(fieldToUpdate, oldValue, newValue, data) {
 
     return output;
 }
+
 /**
+ * DeleteOutput
  *
- * WriteFile
+ * Deletes the files and folders recursively in sync
  *
- * Writes the file to disk
- *
- * @param path
- * @param data
- * @returns {*}
+ * @param dir
  * @constructor
  */
-function WriteFile(path, data) {
-    return fsp.writeFile(path, data);
+function DeleteOutput (dir) {
+    if(dir === "") {
+        dir = dir_path;
+    }
+
+    if(fileExists (dir)) {
+        var list = fs.readdirSync(dir);
+        for(var i = 0; i < list.length; i++) {
+            var filename = path.join(dir, list[i]);
+            var stat = fs.statSync(filename);
+
+            if(filename == "." || filename == "..") {
+                // pass these files
+            } else if(stat.isDirectory()) {
+                // rmdir recursively
+                DeleteOutput(filename);
+            } else {
+                // rm fiilename
+                fs.unlinkSync(filename);
+            }
+        }
+        //don't delete the output root
+        if(dir !== dir_path) {
+            fs.rmdirSync(dir);
+        }
+    }
+
+
 }
 
 module.exports = {
-    ReadFile: ReadFile,
-    UpdateFile: UpdateFile,
-    WriteFile: WriteFile
+    CreateFile: CreateFile,
+    DeleteOutput: DeleteOutput
 };

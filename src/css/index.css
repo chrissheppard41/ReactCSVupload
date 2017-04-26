@@ -3,3 +3,68 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+p {
+    padding-top: 10px;
+    color: #777777;
+}
+
+label {
+    color: #777777;
+}
+
+form {
+    margin-right: 15px;
+    margin-left: 15px;
+
+    border-bottom: 2px solid #777777;
+
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+table thead tr {
+    color: #777777;
+    border-bottom: 2px solid #777777;
+}
+table thead tr th {
+    padding: 10px 0;
+}
+
+table tr.ready:nth-child(odd) {
+    background-color: #f0ad4e;
+}
+table tr.ready:nth-child(even) {
+    background-color: #e38d13;
+}
+
+
+table tr.fail:nth-child(odd) {
+    background-color: #d9534f;
+}
+table tr.fail:nth-child(even) {
+    background-color: #d43f3a;
+}
+
+table tr.pass:nth-child(odd) {
+    background-color: #b2dba1;
+}
+table tr.pass:nth-child(even) {
+    background-color: #67b168;
+}
+
+table {
+    width: 100%;
+    margin: 20px 0;
+    text-align: left;
+}
+
+table tr td {
+    padding: 5px 0;
+}
+
+table tr td .scroll {
+    width: 150px;
+    height: 50px;
+    overflow: scroll;
+}

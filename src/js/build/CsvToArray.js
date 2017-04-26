@@ -14,7 +14,7 @@ function CsvToArray(csv){
     var headers=lines[0].split(",");
 
     //first loop, loop through the lines
-    for (var i=1;i<lines.length;i++){
+    for (var i=1; i<lines.length; i++) {
         //set a default object to store the values
         var obj = {};
         //split the lines data
@@ -22,12 +22,17 @@ function CsvToArray(csv){
         var currentline = lines[i].split(",");
 
         //second loop, set the values into the object using the header as a key
-        for(var j=0;j<headers.length;j++){
+        for (var j=0; j<headers.length; j++) {
             //trim the header value, else you'll have a new line at the end
             var key = headers[j].trim();
             //set the value
             obj[key] = currentline[j].trim();
         }
+        obj["status"] = "ready";
+        obj["original"] = "";
+        obj["updated"] = "";
+        obj["error"] = "";
+
 
         //push the object to the result array
         result.push(obj);

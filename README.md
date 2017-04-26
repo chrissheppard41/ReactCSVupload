@@ -1,6 +1,13 @@
 # React CSV uploader
 
-This project updates jekyll files. Requires a node server
+This project updates jekyll files by uploading a csv file. This CSV file contains the values in which it needs to target specific fields:
+
+* url - the url to the file within the jekyll project
+* fieldToUpdate - the variable name within the front matter
+* oldValue - the existing value
+* newValue - the value you wish to replace it with
+
+**Requires a node server**
 
 Work in progress
 
