@@ -44,4 +44,24 @@ app.post('/updateFile', function (req, res) {
     res.end();
 });
 
+
+app.post('/updateCamelCase', function (req, res) {
+
+    var fileList = Manager.ReadDir(req.body.path);
+
+    fileList.forEach((file) => {
+        try {
+            Manager.RemoveCamelCase(req.body.field, file);
+        } catch(err) {
+            console.log(err);
+        }
+    });
+
+
+    res.json("{'done': true}");
+    res.end();
+
+
+});
+
 module.exports = app;

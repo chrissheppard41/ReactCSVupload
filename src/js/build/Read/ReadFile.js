@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import Ajax from './Ajax';
+import Ajax from '../Ajax';
 import CsvToArray from './CsvToArray';
 import Page from './Page/Page';
 

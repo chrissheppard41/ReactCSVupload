@@ -145,10 +145,38 @@ function DeleteOutput (dir) {
         }
     }
 
+}
 
+function ReadDir(dir) {
+    var results = [];
+    var list = fs.readdirSync(dir);
+    list.forEach(function(file) {
+        file = dir + '/' + file;
+        var stat = fs.statSync(file);
+        if (stat && stat.isDirectory()) results = results.concat(ReadDir(file));
+        else results.push(file);
+    });
+    return results;
+}
+
+function RemoveCamelCase(variable, path_to_file) {
+    var file_content = fs.readFileSync(path_to_file, 'utf8').toString();
+    var reg = new RegExp(variable + "(.*)");
+
+    var res = file_content.match(reg);
+
+    file_content = file_content.replace(res[0], (str) => {
+        var split = str.split(": ");
+        var upperFirstChar = split[1].charAt(0).toUpperCase() + split[1].toLowerCase().slice(1);
+        return split[0] + ": " + upperFirstChar;
+    });
+
+    fs.writeFileSync(path_to_file, file_content, 'utf8');
 }
 
 module.exports = {
     CreateFile: CreateFile,
-    DeleteOutput: DeleteOutput
+    DeleteOutput: DeleteOutput,
+    ReadDir: ReadDir,
+    RemoveCamelCase: RemoveCamelCase
 };
