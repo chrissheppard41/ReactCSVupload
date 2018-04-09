@@ -20,8 +20,12 @@ function CreateFile (path_to_file, request) {
 
     var update = UpdateFile(request.fieldToUpdate, request.oldValue, request.newValue, file_content);
 
-    var file_path = dir_path + request.url;
+
+    var slash = (request.url.charAt(0) === "/")?"":"/";
+
+    var file_path = dir_path + slash + request.url;
     var strict_path = file_path.substring(0, file_path.lastIndexOf("/"));
+
     if (!fs.existsSync(strict_path)) {
         fs.mkdirSync(strict_path);
     }

@@ -19,6 +19,7 @@ class ReadFile extends Component {
     handleSubmit (event) {
         event.preventDefault();
 
+
         //@todo to do validation
         //var file = this.refs.file.files[0];
         var file = this.state.file;
